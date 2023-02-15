@@ -1,0 +1,8 @@
+*.db
+*.csv
+*.pdf
+*.dbsave
+*.ods
+*.py~
+*.xlsx
+*.txt
