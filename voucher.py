@@ -113,7 +113,7 @@ class VoucherBook:
         x = [a, yb]
         f = open('voucher.db','w')
         json.dump(x,f)
-        __main__.win.log("Database dumped")
+        __main__.win.log("Database dumped!\n")
         f.close()
 
     def saveyearbook(self,year):
@@ -123,11 +123,19 @@ class VoucherBook:
         for v in sorted(vl):
             vrs = []
             for vr in vl[v].records:
-                vrs.append([vr.date,vr.dorc,vr.index,vr.code,vr.account,vr.remark,vr.debit,vr.credit,vr.date])
+                vrs.append([vr.date,vr.dorc,vr.index,vr.code,vr.account,vr.remark,vr.debit,vr.credit,vr.vdate])
             r.append( [vl[v].index,vl[v].date,vrs])
         f = open('voucher'+str(year)+'.db','w')
         json.dump(r,f)
-        __main__.win.log("Database of ",year," dumped")
+        __main__.win.log("Database of year"+str(year)+" dumped\n")
+        with open('voucher'+str(year)+".csv",'w',newline='',encoding='utf-8') as csvfile:
+            writer=csv.writer(csvfile,delimiter=',')
+            writer.writerow(["日期","借貸","編號","科目編號","科目","說明","借方","貸方","發票日期"])
+            for rx in r :
+                for rr in rx[2]:
+                    writer.writerow( [rr[0],rr[1],rr[2],rr[3],rr[4],rr[5],str(rr[7]), str(rr[6]),rr[8]])
+            csvfile.close()    
+        __main__.win.log(" CSV 輸出\n")
         f.close()
 
     def loadyearbook(self,year):

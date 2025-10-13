@@ -77,6 +77,10 @@ class ReportWin(Gtk.Window):
         box1.add(self.yent)
         box1.add(ybtn)
 
+        expbtn=Gtk.Button(label='導出')
+        box1.add(expbtn)
+        expbtn.connect("clicked",self.exportsum)
+
         box2=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         box.pack_start(box2,False,False,0)
         inoutbtn=Gtk.Button(label="收支餘絀表")
@@ -120,6 +124,18 @@ class ReportWin(Gtk.Window):
         
         accwin.set_content(x)
         accwin.show_all()
+
+    def exportsum(self,widget):
+        tit=self.yent.get_text()
+        with open(tit+".csv",'w',newline='') as csvfile:
+            writer=csv.writer(csvfile,delimiter=',')
+            writer.writerow(["科目","科目名稱","借方","貸方"])
+            n = self.store.get_iter_first()
+            while n!=None:
+                writer.writerow( self.store.get(n,0,1,2,3))
+                n = self.store.iter_next(n)
+            csvfile.close()    
+        donemsg("CSV 輸出\n")
 
     def inoutdetreport(self,widget):
         yt=self.yent.get_text()
@@ -223,7 +239,7 @@ class ReportWin(Gtk.Window):
             
         c.showPage()
         c.save()
-        donemsg(fname+" 印出")
+        donemsg(fname+" 印出\n")
 
             
     def loadyear(self,widget):
@@ -362,7 +378,7 @@ class AccountWin(Gtk.Window):
             c.drawString(100,30,"借方金額:{:,d} 貸方金額:{:,d}  總數:{:,d}".format(crsum,debsum,crsum-debsum))
         c.showPage()
         c.save()
-        donemsg("科目報表印出")
+        donemsg("科目報表印出\n")
 
     def csvrep(self,widget):
         tit=self.get_title()
@@ -374,7 +390,7 @@ class AccountWin(Gtk.Window):
                 writer.writerow( self.store.get(n,0,1,2,3,4,5,6,7))
                 n = self.store.iter_next(n)
             csvfile.close()    
-        donemsg("CSV 輸出")
+        donemsg("CSV 輸出\n")
 
         
 class DetailedWin(Gtk.Window):
@@ -486,7 +502,7 @@ class DetailedWin(Gtk.Window):
             c.drawString(100,30,"借方金額:{:,d} 貸方金額:{:,d}  總數:{:,d}".format(crsum,debsum,crsum-debsum))
         c.showPage()
         c.save()
-        donemsg("收入報表印出")
+        donemsg("收入報表印出\n")
 
         
     def spending_report(self,widget):
@@ -516,7 +532,7 @@ class DetailedWin(Gtk.Window):
             c.drawString(100,30,"借方金額:{:,d} 貸方金額:{:,d}  總數:{:,d}".format(crsum,debsum,debsum-crsum))
         c.showPage()
         c.save()
-        donemsg("支出報表印出")
+        donemsg("支出報表印出\n")
         
 
     def loaddata(self,inrep,outrep):
