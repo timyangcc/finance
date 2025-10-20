@@ -696,7 +696,7 @@ class EditVoucher(Gtk.Dialog):
                 c.showPage()
         c.drawString(345.8,477.8,"{:14,}".format(vcrt))
         c.drawString(445,477.8,"{:14,}".format(vdeb))
-        print(self.index+' printed')
+        print(self.index+' printed\n')
         c.showPage()
         c.save()
         __main__.win.log(self.index+'印出')

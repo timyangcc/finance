@@ -158,6 +158,7 @@ class ReportWin(Gtk.Window):
         detsum={}
         for ai in self.asum:
             a=self.asum[ai]
+            print(ai,a)
             cat = a[0][1]
             det = a[0][2]
             crt = a[1]
@@ -178,7 +179,10 @@ class ReportWin(Gtk.Window):
         for c in catsum:
             for d in detsum:
                 if detsum[d][3]==c:
-                    detsum[d][4]='{:.2%}'.format(detsum[d][2]/catsum[c][2])
+                    if (catsum[c][2]!=0):
+                         detsum[d][4]='{:.2%}'.format(detsum[d][2]/catsum[c][2])
+                    else:
+                        detsum[d][4]='{:.2%}'.format(0)
                     catsum[c][3].append([d,detsum[d]])
                     
         print(catsum)
