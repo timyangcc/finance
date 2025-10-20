@@ -15,7 +15,7 @@ class Accounts():
             freader = csv.reader(c)
             for row in freader:
                 self.accountbook[row[0]]=[row[1],row[2],row[3]]
-        __main__.win.log("Accounts imported from "+csvfile)
+        __main__.win.log("Accounts imported from "+csvfile+'\n')
 
     def dump_accounts(self):
         a=[]
@@ -24,14 +24,14 @@ class Accounts():
             print (i, self.accountbook[i])
         f = open('account.db','w')
         json.dump(a,f)
-        __main__.win.log("Accounts dumped")
+        __main__.win.log("Accounts dumped!\n")
         f.close()
 
     def load_accounts(self):
         self.accountbook={}
         f=open('account.db','r')
         x=json.load(f)
-        __main__.win.log("Accounts loaded")
+        __main__.win.log("Accounts loaded!\n")
         for i in x:
             self.accountbook[i[0]]=i[1]
 
